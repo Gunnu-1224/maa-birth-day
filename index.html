@@ -56,12 +56,12 @@
             text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 30px;
         }
-        
-        /* Main Front Page (now Page 2) adjustment */
+
+        /* Main Front Page (now Page 1) adjustment */
         #page1.active {
-            padding-top: 100px;
+            padding-top: 50px; /* Reduced padding since video is large */
             justify-content: flex-start;
-            min-height: calc(100vh - 100px);
+            min-height: calc(100vh - 50px);
         }
 
         /* Creative Title Font */
@@ -74,7 +74,7 @@
             line-height: 1.2;
         }
 
-        /* Specific styling for main front page headers (now Page 2) */
+        /* Specific styling for main front page headers (now Page 1) */
         #page1 h1 {
             font-size: 80px;
         }
@@ -82,7 +82,7 @@
         #page1 .quote {
             font-size: 28px;
             margin-top: 15px;
-            margin-bottom: 50px;
+            margin-bottom: 30px; /* Reduced margin */
             font-style: italic;
             color: #ccc;
         }
@@ -95,7 +95,7 @@
             border-radius: 20px;
             cursor: pointer;
             box-shadow: 0 0 30px var(--primary-color);
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         /* Gift Boxes (List Style) */
@@ -114,7 +114,7 @@
         .letter-box {
             background: var(--primary-color);
             /* Increased padding for a clear rectangular shape */
-            padding: 60px 30px; 
+            padding: 60px 30px;
             border-radius: 15px;
             font-size: 20px;
             font-weight: 600;
@@ -142,20 +142,21 @@
             transition: opacity 0.3s ease;
             width: 90%;
             /* Ensure it respects max-width */
-            min-height: 200px; /* Give it space even when empty */
+            min-height: 200px;
+            /* Give it space even when empty */
         }
 
         .photo-display img {
             width: 100%;
             /* Make the image responsive inside the box */
-            height: auto; 
+            height: auto;
             border-radius: 15px;
             box-shadow: 0 0 25px white;
             display: block;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        
+
         /* Intro Button Style */
         .intro-btn {
             font-size: 24px;
@@ -217,6 +218,12 @@
             box-shadow: 0 0 20px var(--primary-color);
             transition: 0.3s;
         }
+        
+        /* Next Button on Page 1 (cake page) - Added some top margin */
+        #page1 .next-btn {
+            margin-top: 30px;
+        }
+
 
         .next-btn:hover {
             transform: scale(1.1);
@@ -224,11 +231,11 @@
         }
 
         /* Final Page Arrangement (Page 7) */
-        #page6 h1 {
+        #page7 h1 {
             font-size: 80px;
         }
 
-        #page6 p {
+        #page7 p {
             font-family: 'Poppins', sans-serif;
             max-width: 700px;
             margin: 30px auto;
@@ -325,6 +332,8 @@
 
 
         <video id="cakeVideo" src="cake.mp4" controls></video>
+        
+        <button class="next-btn" onclick="nextPage()">आगे चलो ➜</button>
     </div>
 
 
@@ -543,10 +552,31 @@
 
         <button class="next-btn" onclick="nextPage()">Next ➜</button>
     </div>
-
-
-
+    
+    
     <div id="page6" class="page">
+        <h1>📸 माँ के कुछ और प्यारे पल 📸</h1>
+        <audio id="bg6" src="maa6.mp3" loop></audio>
+
+        <div id="photoDisplay6" class="photo-display">
+            <img id="popupImg6" src="" style="max-height:400px; object-fit:contain;">
+        </div>
+
+        <div class="list-container">
+            <div class="gift-box" onclick="openPhoto('gift21.jpg', 6)">🎁 Photo 21</div>
+            <div class="gift-box" onclick="openPhoto('gift22.jpg', 6)">🎁 Photo 22</div>
+            <div class="gift-box" onclick="openPhoto('gift23.jpg', 6)">🎁 Photo 23</div>
+            <div class="gift-box" onclick="openPhoto('gift24.jpg', 6)">🎁 Photo 24</div>
+            <div class="gift-box" onclick="openPhoto('gift25.jpg', 6)">🎁 Photo 25</div>
+        </div>
+
+
+        <button class="next-btn" onclick="nextPage()">Next ➜</button>
+    </div>
+
+
+
+    <div id="page7" class="page">
         <h1 style="font-size:80px;">🎉 HAPPY BIRTHDAY MUMMA! 💖</h1>
         <p>हैप्पी बर्थडे 🎉🎂💐! आज हम सब बच्चों ने मिलकर सोचा कि एक ही बार में सारी विशेज़ दे दी जाएँ, वरना अलग-अलग
             जाकर आपको परेशान ही करते रहेंगे 😄। वैसे तो हम रोज़ घर का सर्कस चला के रख देते हैं, पर आज हमने डिसाइड किया है
@@ -575,8 +605,8 @@
 
 
     <script>
-        // Adjusting total pages due to new intro page
-        const totalPages = 7;
+        // Adjusting total pages due to new intro page and new photo page (total pages: 0 to 7 = 8 pages)
+        const totalPages = 8; 
         let currentPage = 0; // 0 for intro-page, 1 for page1, 2 for page2, etc.
 
         // Function to start the main experience (called from intro button)
@@ -596,12 +626,15 @@
 
         function nextPage() {
             // Pause current page's music
-            let currentAudio = document.getElementById("bg" + currentPage) || document.getElementById("finalSong");
+            let currentAudioId = "bg" + (currentPage);
+            if (currentPage === 7) currentAudioId = "finalSong";
+            
+            let currentAudio = document.getElementById(currentAudioId);
             if (currentAudio) currentAudio.pause();
 
 
-            // Hide photo display on transition (for photo pages: 2 and 3)
-            const currentPhotoDisplay = document.getElementById("photoDisplay" + currentPage);
+            // Hide photo display on transition (for photo pages: 2, 3, and 6)
+            const currentPhotoDisplay = document.getElementById("photoDisplay" + (currentPage));
             if (currentPhotoDisplay) {
                 // Hide and clear image source for smooth transition
                 currentPhotoDisplay.querySelector('img').style.opacity = '0';
@@ -609,39 +642,34 @@
             }
 
             // Correctly handle page element IDs: page1, page2, page3, etc.
-            let currentElementId = (currentPage === 0) ? "intro-page" : "page" + (currentPage - 1);
+            let currentElementId = (currentPage === 0) ? "intro-page" : "page" + (currentPage);
             
             document.getElementById(currentElementId).classList.remove("active");
             currentPage++;
 
-            // Stop if pages are finished (page 6 is the last content page, page 7 is out of bounds)
+            // Stop if pages are finished (page 7 is the last content page)
             if (currentPage >= totalPages) return;
 
             // Determine the ID of the next page to show
-            let nextElementId = "page" + (currentPage - 1);
-            if (currentPage === 1) nextElementId = "page1";
-            if (currentPage === 2) nextElementId = "page2";
-            if (currentPage === 3) nextElementId = "page3";
-            if (currentPage === 4) nextElementId = "page4";
-            if (currentPage === 5) nextElementId = "page5";
-            if (currentPage === 6) nextElementId = "page6";
+            let nextElementId = "page" + (currentPage);
+            if (currentPage === 7) nextElementId = "page7";
             
-
-            // Show next page
             document.getElementById(nextElementId).classList.add("active");
 
 
             // Play next page's music
-            let nextAudio = document.getElementById("bg" + (currentPage - 1)) || document.getElementById("finalSong");
+            let nextAudioId = "bg" + (currentPage);
+            if (currentPage === 7) nextAudioId = "finalSong";
+            
+            let nextAudio = document.getElementById(nextAudioId);
             if (nextAudio) nextAudio.play();
         }
 
 
 
-        // PHOTO DISPLAY (Instead of Popup)
-        // Uses the display area within Page 3 and Page 4 (Original IDs page2 and page3)
+        // PHOTO DISPLAY (Uses the display area within Page 2, 3, and 6)
         function openPhoto(img, pageNum) {
-            // pageNum here is the old ID (2 or 3). The new page index is 3 or 4.
+            // pageNum is the actual ID of the photoDisplay area (2, 3, or 6)
             const imgId = "popupImg" + pageNum;
             const imgElement = document.getElementById(imgId);
 
@@ -670,13 +698,12 @@
                 box.style.padding = '0px 20px';
             } else {
                 box.style.padding = '20px';
-                // Set max-height using scrollHeight
                 box.style.maxHeight = box.scrollHeight + 40 + "px";
                 box.style.opacity = '1';
             }
         }
 
-        // VIDEO → NEXT PAGE (FIXED LOGIC - Now next page is Page 3)
+        // VIDEO → NEXT PAGE (Page 1 leads to Page 2)
         const cakeVideo = document.getElementById("cakeVideo");
         
         cakeVideo.addEventListener("ended", () => nextPage());
