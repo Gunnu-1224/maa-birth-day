@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Birthday Maa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* CSS Styles */
+        :root {
+            --primary-color: #ff66aa;
+            /* Pink */
+            --secondary-color: #8844ff;
+            /* Purple */
+            --text-color: #ffddff;
+            /* Light Pink */
+            --bg-color: #001133;
+            /* Dark Blue */
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .page {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+            min-height: 100vh;
+        }
+
+        /* Active page styling */
+        .active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* NEW INTRO PAGE styling */
+        #intro-page {
+            background-color: var(--primary-color);
+            color: white;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #intro-page h1 {
+            font-size: 10vw;
+            color: white;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        /* Main Front Page (now Page 1) adjustment: FIXED TO CENTER CONTENT */
+        #page1.active {
+            padding-top: 20px; /* Reduced top padding */
+            justify-content: center; /* CENTER content to ensure button is visible */
+            min-height: 100vh; /* Use full viewport height */
+        }
+
+        /* Creative Title Font */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 75px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            text-shadow: 0 0 15px var(--primary-color), 0 0 25px var(--secondary-color);
+            line-height: 1.2;
+        }
+
+        /* Specific styling for main front page headers (now Page 1) */
+        #page1 h1 {
+            font-size: 80px;
+        }
+
+        #page1 .quote {
+            font-size: 28px;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            /* Reduced margin */
+            font-style: italic;
+            color: #ccc;
+        }
+
+
+        /* Adjusted Video Styling and Position */
+        video {
+            width: 90%;
+            max-width: 550px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 30px var(--primary-color);
+            margin-top: 30px;
+        }
+
+        /* Gift Boxes (List Style) */
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 450px;
+            margin: 30px auto;
+            padding: 0;
+            list-style: none;
+        }
+
+        /* Gift Box Item (RECTANGULAR: Taller than wide) */
+        .gift-box,
+        .letter-box {
+            background: var(--primary-color);
+            /* Increased padding for a clear rectangular shape */
+            padding: 60px 30px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 102, 170, 0.5);
+            transition: 0.3s;
+            text-align: center;
+            color: white;
+        }
+
+        .gift-box:hover,
+        .letter-box:hover {
+            transform: scale(1.03);
+            background: #ff77bb;
+        }
+
+        /* Photo Display within the page (FIXED position: it stays relative to its parent container) */
+        .photo-display {
+            position: relative;
+            margin: 30px auto;
+            max-width: 450px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 20px;
+            transition: opacity 0.3s ease;
+            width: 90%;
+            /* Ensure it respects max-width */
+            min-height: 200px;
+            /* Give it space even when empty */
+        }
+
+        .photo-display img {
+            width: 100%;
+            /* Make the image responsive inside the box */
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 0 25px white;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Intro Button Style */
+        .intro-btn {
+            font-size: 24px;
+            padding: 15px 40px;
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .intro-btn:hover {
+            transform: scale(1.05);
+            background: #9955ff;
+        }
+
+
+        /* Letter Box Style (Purple for distinction) */
+        .letter-box {
+            background: var(--secondary-color);
+            box-shadow: 0 5px 20px rgba(136, 68, 255, 0.5);
+        }
+
+        .letter-box:hover {
+            background: #9955ff;
+        }
+
+        .hidden-text {
+            /* Updated styles for smooth open/close of letters */
+            display: block;
+            opacity: 0;
+            max-height: 0;
+            padding: 0 20px;
+            margin-top: 5px;
+            background: #ffffff22;
+            border-radius: 15px;
+            text-align: left;
+            color: white;
+            font-size: 18px;
+            line-height: 1.6;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+
+        /* Next Button */
+        .next-btn {
+            margin-top: 40px;
+            font-size: 22px;
+            padding: 12px 35px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 20px var(--primary-color);
+            transition: 0.3s;
+        }
+
+        /* Next Button on Page 1 (cake page) - Added some top margin */
+        #page1 .next-btn {
+            margin-top: 30px;
+        }
+
+
+        .next-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--text-color);
+        }
+
+        /* Final Page Arrangement (Page 7) */
+        #page7 h1 {
+            font-size: 80px;
+        }
+
+        #page7 p {
+            font-family: 'Poppins', sans-serif;
+            max-width: 700px;
+            margin: 30px auto;
+            font-size: 20px;
+            line-height: 1.8;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: left;
+        }
+
+        /* Fireworks */
+        #fireworks-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            z-index: 99;
+        }
+
+        #fireworks-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Dancing Script', cursive;
+            font-size: 8vw;
+            color: white;
+            text-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--secondary-color);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        /* Stars / Heart Rain */
+        .rain {
+            position: fixed;
+            top: -10px;
+            color: var(--primary-color);
+            animation: fall 3s linear infinite;
+            font-size: 20px;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <script>
+        function startRain() {
+            setInterval(() => {
+                let e = document.createElement("div");
+                e.className = "rain";
+                e.innerText = Math.random() > 0.5 ? "🌟" : "💖";
+                e.style.left = Math.random() * 100 + "vw";
+                document.body.appendChild(e);
+
+                setTimeout(() => e.remove(), 3000);
+            }, 200);
+        }
+        startRain();
+    </script>
+
+
+    <div id="intro-page" class="page active">
+        <h1>Happy Birthday to You! 🎉</h1>
+        <button class="intro-btn" onclick="startExperience()">🎁 Gift के लिए Click करें</button>
+    </div>
+
+
+    <div id="page1" class="page">
+        <h1>
+            <span style="display:block;">Maa, Aapko Janamdin Ki</span>
+            <span style="color:var(--primary-color); text-shadow: 0 0 20px var(--primary-color);">Dhero Shubhkaamnayein</span>
+            🎉
+        </h1>
+        <p class="quote">🫶 आपके बर्थडे पर हमारी तरफ से प्यारा सा गिफ्ट ❤️</p>
+
+
+        <audio id="bg1" src="maa1.mp3" loop></audio>
+
+
+        <video id="cakeVideo" src="cake.mp4" controls></video>
+
+        <button class="next-btn" onclick="nextPage()">आगे चलो ➜</button>
+    </div>
+
+
+
+    <div id="page2" class="page">
+        <h1>🫅 प्यारी मां के खास पल 🫅</h1>
+        <audio id="bg2" src="maa2.mp3" loop></audio>
+
+        <div id="photoDisplay2" class="photo-display">
+            <img id="popupImg2" src="" style="max-height:400px; object-fit:contain;">
+        </div>
+
+        <div class="list-container">
+            <div class="gift-box" onclick="openPhoto('gift1.jpg', 2)">🎁 Gift 1</div>
+            <div class="gift-box" onclick="openPhoto('gift2.jpg', 2)">🎁 Gift 2</div>
+            <div class="gift-box" onclick="openPhoto('gift3.jpg', 2)">🎁 Gift 3</div>
+            <div class="gift-box" onclick="openPhoto('gift4.jpg', 2)">🎁 Gift 4</div>
+            <div class="gift-box" onclick="openPhoto('gift5.jpg', 2)">🎁 Gift 5</div>
+            <div class="gift-box" onclick="openPhoto('gift6.jpg', 2)">🎁 Gift 6</div>
+            <div class="gift-box" onclick="openPhoto('gift7.jpg', 2)">🎁 Gift 7</div>
+            <div class="gift-box" onclick="openPhoto('gift8.jpg', 2)">🎁 Gift 8</div>
+            <div class="gift-box" onclick="openPhoto('gift9.jpg', 2)">🎁 Gift 9</div>
+            <div class="gift-box" onclick="openPhoto('gift10.jpg', 2)">🎁 Gift 10</div>
+        </div>
+
+        <button class="next-btn" onclick="nextPage()">Next ➜</button>
+    </div>
+
+
+
+    <div id="page3" class="page">
+        <h1>🤍 छोटी छोटी यादें 🤍</h1>
+        <audio id="bg3" src="maa3.mp3" loop></audio>
+
+        <div id="photoDisplay3" class="photo-display">
+            <img id="popupImg3" src="" style="max-height:400px; object-fit:contain;">
+        </div>
+
+        <div class="list-container">
+            <div class="gift-box" onclick="openPhoto('gift11.jpg', 3)">🎁 Gift 11</div>
+            <div class="gift-box" onclick="openPhoto('gift12.jpg', 3)">🎁 Gift 12</div>
+            <div class="gift-box" onclick="openPhoto('gift13.jpg', 3)">🎁 Gift 13</div>
+            <div class="gift-box" onclick="openPhoto('gift14.jpg', 3)">🎁 Gift 14</div>
+            <div class="gift-box" onclick="openPhoto('gift15.jpg', 3)">🎁 Gift 15</div>
+            <div class="gift-box" onclick="openPhoto('gift16.jpg', 3)">🎁 Gift 16</div>
+            <div class="gift-box" onclick="openPhoto('gift17.jpg', 3)">🎁 Gift 17</div>
+            <div class="gift-box" onclick="openPhoto('gift18.jpg', 3)">🎁 Gift 18</div>
+            <div class="gift-box" onclick="openPhoto('gift19.jpg', 3)">🎁 Gift 19</div>
+            <div class="gift-box" onclick="openPhoto('gift20.jpg', 3)">🎁 Gift 20</div>
+        </div>
+
+
+        <button class="next-btn" onclick="nextPage()">Next ➜</button>
+    </div>
+
+
+
+    <div id="page4" class="page">
+        <h1>💌 चिट्ठियां आपके लिए 💌 </h1>
+        <audio id="bg4" src="maa4.mp3" loop></audio>
+
+
+        <div class="list-container">
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q1')">✨ Letter 1: प्यार का इज़हार</div>
+                <div id="q1" class="hidden-text">
+                    आज का दिन है बहुत ख़ास, आप हो हमारे दिल के पास ❤️✨
+                </div>
+            </div>
+
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q2')">☕ Letter 2: चाय और माँ</div>
+                <div id="q2" class="hidden-text">
+                    हम बच्चों की एक ही राय, मम्मी आप बनाती हो सबसे अच्छी चाय ☕❤️
+                </div>
+            </div>
+
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q3')">🧠 Letter 3: समझदार माँ</div>
+                <div id="q3" class="hidden-text">
+                    हम सब की एक कहानी, मम्मी हमारी बहुत सयानी ❤️✨
+                </div>
+            </div>
+
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q4')">🍪 Letter 4: बर्थडे मस्ती</div>
+                <div id="q4" class="hidden-text">
+                    आया आया जन्मदिन, आज खाएंगे हम बिस्किट नमकीन 🎉🍪✨
+                </div>
+            </div>
+
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q5')">🎁 Letter 5: सबसे बड़ा तोहफा</div>
+                <div id="q5" class="hidden-text">
+                    जन्मदिन पर बस यही उपहार दे सकते हैं,
+                    ढेर सारा प्यार और खूबसूरत दुआएँ♥️।
+                </div>
+            </div>
+
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q6')">😊 Letter 6: हमारी दुनिया</div>
+                <div id="q6" class="hidden-text">
+                    आपकी हंसी में ही हमारा सुकून है,
+                    आपकी खुशी में ही हमारी दुनिया😘😅।
+                </div>
+            </div>
+
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q7')">🥰 Letter 7: ममता को सलाम</div>
+                <div id="q7" class="hidden-text">
+                    आपकी ममता ने हमें हर मोड़ पर संभाला है,
+                    आज उसी प्यार को सलाम करने का दिन है☺️।
+                </div>
+            </div>
+
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q8')">🏡 Letter 8: घर की रौनक</div>
+                <div id="q8" class="hidden-text">
+                    जिस घर में आपकी हंसी गूंजती है,
+                    वहीं से हमारी खुशियाँ शुरू होती हैं🥰।
+                </div>
+            </div>
+
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q9')">🙏 Letter 9: दुआएं</div>
+                <div id="q9" class="hidden-text">
+                    भगवान से बस इतनी सी प्रार्थना है,
+                    आपकी झोली हमेशा खुशियों से भरी रहे🙌♥️।
+                </div>
+            </div>
+
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q10')">💖 Letter 10: आप ही सब कुछ</div>
+                <div id="q10" class="hidden-text">
+                    आपके बिना ये घर खाली-खाली लगता है,
+                    आप ही तो इसकी असली रौनक हैं☺️।
+                </div>
+            </div>
+        </div>
+
+
+        <button class="next-btn" onclick="nextPage()">Next ➜</button>
+    </div>
+
+
+    <div id="page5" class="page">
+        <h1>💝 कुछ और बाते ❤️‍🩹</h1>
+        <audio id="bg5" src="maa5.mp3" loop></audio>
+
+
+        <div class="list-container">
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q11')">✨ Letter 11: प्यारी ख्वाहिश</div>
+                <div id="q11" class="hidden-text">
+                    जीवन की हर राह पर आपकी मुस्कान साथ रहे,
+                    यही सबसे प्यारी ख्वाहिश है हमारी💜।
+                </div>
+            </div>
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q12')">🌟 Letter 12: दिन की रोशनी</div>
+                <div id="q12" class="hidden-text">
+                    आपका जन्मदिन हमारी दुआओं का त्यौहार है,
+                    क्योंकि आप ही हमारे हर दिन की रोशनी हैं🌟।
+                </div>
+            </div>
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q13')">🌍 Letter 13: छोटी सी दुनिया</div>
+                <div id="q13" class="hidden-text">
+                    हम सब बच्चों की छोटी सी दुनिया में, आपकी मुस्कान सबसे बड़ी खुशी है ❤️
+                </div>
+            </div>
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q14')">🌈 Letter 14: रंगीन दिन</div>
+                <div id="q14" class="hidden-text">
+                    आपकी हँसी हमारे दिन को रंगीन बना देती है, और दिल खुश कर देती है ✨
+                </div>
+            </div>
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q15')">🌸 Letter 15: सबसे प्यारी</div>
+                <div id="q15" class="hidden-text">
+                    आप हमारे लिए हमेशा से सबसे प्यारी हो, और हमेशा रहेंगी 🌸
+                </div>
+            </div>
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q16')">😄 Letter 16: बस खुश रहो</div>
+                <div id="q16" class="hidden-text">
+                    हम बस चाहते हैं कि आप हमेशा खुश और हँसती रहें ✨
+                </div>
+            </div>
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q17')">🤞 Letter 17: हर दिन साथ</div>
+                <div id="q17" class="hidden-text">
+                    हमारे लिए आप ही सबसे खास हो, और हर दिन आपका साथ चाहिए 😄
+                </div>
+            </div>
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q18')">💖 Letter 18: सबसे बड़ा तोहफ़ा</div>
+                <div id="q18" class="hidden-text">
+                    आपका प्यार हमारे लिए सबसे बड़ा तोहफ़ा है, और हँसी सबसे प्यारी चीज़ ❤️
+                </div>
+            </div>
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q19')">✨ Letter 19: दिल खुश</div>
+                <div id="q19" class="hidden-text">
+                    आपकी हँसी सुनकर हमारा मन भी हँस उठता है ✨
+                </div>
+            </div>
+            <div class="letter-item">
+                <div class="letter-box" onclick="toggleQuote('q20')">😈 Letter 20: शैतान बच्चे</div>
+                <div id="q20" class="hidden-text">
+                    हमारी मम्मी की एक ही पुरान ⏳, बच्चे उनके बहुत शैतान 😄😈।
+                </div>
+            </div>
+        </div>
+
+
+        <button class="next-btn" onclick="nextPage()">Next ➜</button>
+    </div>
+
+
+    <div id="page6" class="page">
+        <h1>📸 माँ के कुछ और प्यारे पल 📸</h1>
+        <audio id="bg6" src="maa6.mp3" loop></audio>
+
+        <div id="photoDisplay6" class="photo-display">
+            <img id="popupImg6" src="" style="max-height:400px; object-fit:contain;">
+        </div>
+
+        <div class="list-container">
+            <div class="gift-box" onclick="openPhoto('gift21.jpg', 6)">🎁 Photo 21</div>
+            <div class="gift-box" onclick="openPhoto('gift22.jpg', 6)">🎁 Photo 22</div>
+            <div class="gift-box" onclick="openPhoto('gift23.jpg', 6)">🎁 Photo 23</div>
+            <div class="gift-box" onclick="openPhoto('gift24.jpg', 6)">🎁 Photo 24</div>
+            <div class="gift-box" onclick="openPhoto('gift25.jpg', 6)">🎁 Photo 25</div>
+        </div>
+
+
+        <button class="next-btn" onclick="nextPage()">Next ➜</button>
+    </div>
+
+
+
+    <div id="page7" class="page">
+        <h1 style="font-size:80px;">🎉 HAPPY BIRTHDAY MUMMA! 💖</h1>
+        <p>हैप्पी बर्थडे 🎉🎂💐! आज हम सब बच्चों ने मिलकर सोचा कि एक ही बार में सारी विशेज़ दे दी जाएँ, वरना अलग-अलग
+            जाकर आपको परेशान ही करते रहेंगे 😄। वैसे तो हम रोज़ घर का सर्कस चला के रख देते हैं, पर आज हमने डिसाइड किया है
+            कि आप थोड़ा आराम कर लो… (बस थोड़ा ही, पूरा दिन तो पॉसिबल नहीं होता हमारे होते हुए 😜)। आज का दिन बस आपका
+            है—ना कोई एक्स्ट्रा टेंशन, ना हमारी बेकार की डिमांड, बस थोड़ी-सी मस्ती, थोड़ी-सी हँसी और बहुत सारा केक 🍰✨।
+            हम सब चाहते हैं कि आप हमेशा ऐसे ही खुश, बिंदास और हेल्दी रहो, और हम कितना भी शोर मचा लें, आपका स्माइल कभी कम
+            ना हो। सो वन्स अगेन, हैप्पी बर्थडे 🎉💖</p>
+
+
+        <audio id="finalSong" src="song1.mp3" loop></audio>
+
+
+        <button class="next-btn" onclick="launchFireworks()">🎆 Start Fireworks 🎆</button>
+    </div>
+
+
+    <div id="fireworks-container">
+        <canvas id="fireworks"></canvas>
+    </div>
+
+    <div id="fireworks-text">
+        HAPPY BIRTHDAY TO YOU 🫅<br>
+        <span style="font-size: 0.5em; display: block; margin-top: 10px;">Love you maa 😘</span>
+    </div>
+
+
+
+    <script>
+        // Adjusting total pages due to new intro page and new photo page (total pages: 0 to 7 = 8 pages)
+        const totalPages = 8;
+        let currentPage = 0; // 0 for intro-page, 1 for page1, 2 for page2, etc.
+
+        // Function to start the main experience (called from intro button)
+        function startExperience() {
+            // Attempt to play audio immediately after user interaction
+            const audio = document.getElementById("bg1");
+            audio.play().catch(e => {
+                console.log("Audio autoplay failed:", e);
+            });
+
+            // Move from intro-page (0) to page1 (1)
+            document.getElementById("intro-page").classList.remove("active");
+            currentPage = 1;
+            document.getElementById("page" + currentPage).classList.add("active");
+        }
+
+
+        function nextPage() {
+            // Pause current page's music
+            let currentAudioId;
+            if (currentPage === 1) {
+                currentAudioId = "bg1";
+            } else if (currentPage >= 2 && currentPage <= 6) {
+                currentAudioId = "bg" + currentPage;
+            } else if (currentPage === 7) {
+                currentAudioId = "finalSong";
+            }
+
+            let currentAudio = document.getElementById(currentAudioId);
+            if (currentAudio) currentAudio.pause();
+
+
+            // Hide photo display on transition (for photo pages: 2, 3, and 6)
+            // Note: The photo display ID uses the same number as the page ID (2, 3, 6)
+            const currentPhotoDisplay = document.getElementById("photoDisplay" + (currentPage));
+            if (currentPhotoDisplay) {
+                // Hide and clear image source for smooth transition
+                currentPhotoDisplay.querySelector('img').style.opacity = '0';
+                currentPhotoDisplay.querySelector('img').src = '';
+            }
+
+            // Correctly handle page element IDs: page1, page2, page3, etc.
+            let currentElementId = (currentPage === 0) ? "intro-page" : "page" + (currentPage);
+
+            document.getElementById(currentElementId).classList.remove("active");
+            currentPage++;
+
+            // Stop if pages are finished (page 7 is the last content page)
+            if (currentPage >= totalPages) return;
+
+            // Determine the ID of the next page to show
+            let nextElementId = "page" + (currentPage);
+            if (currentPage === 7) nextElementId = "page7";
+
+            document.getElementById(nextElementId).classList.add("active");
+
+
+            // Play next page's music
+            let nextAudioId;
+            if (currentPage === 1) {
+                // Should only happen on startExperience, but added for completeness
+                nextAudioId = "bg1";
+            } else if (currentPage >= 2 && currentPage <= 6) {
+                nextAudioId = "bg" + currentPage;
+            } else if (currentPage === 7) {
+                nextAudioId = "finalSong";
+            }
+
+            let nextAudio = document.getElementById(nextAudioId);
+            if (nextAudio) nextAudio.play();
+        }
+
+
+        // PHOTO DISPLAY (Uses the display area within Page 2, 3, and 6)
+        function openPhoto(img, pageNum) {
+            // pageNum is the actual ID of the photoDisplay area (2, 3, or 6)
+            const imgId = "popupImg" + pageNum;
+            const imgElement = document.getElementById(imgId);
+
+            if (imgElement.src.includes(img)) {
+                // If same image is clicked, hide it
+                imgElement.style.opacity = '0';
+                setTimeout(() => imgElement.src = '', 300); // Clear source after fade
+            } else {
+                // Show new image
+                imgElement.style.opacity = '0'; // Start invisible for fade effect
+                imgElement.src = img;
+                // Wait for image to load, then fade in
+                imgElement.onload = () => {
+                    imgElement.style.opacity = '1';
+                };
+            }
+        }
+
+
+        // QUOTE TOGGLE (FIXED LOGIC)
+        function toggleQuote(id) {
+            let box = document.getElementById(id);
+            if (box.style.maxHeight && box.style.maxHeight !== '0px') {
+                box.style.maxHeight = '0px';
+                box.style.opacity = '0';
+                box.style.padding = '0px 20px';
+            } else {
+                box.style.padding = '20px';
+                box.style.maxHeight = box.scrollHeight + 40 + "px";
+                box.style.opacity = '1';
+            }
+        }
+
+        // VIDEO → NEXT PAGE (Page 1 leads to Page 2)
+        const cakeVideo = document.getElementById("cakeVideo");
+
+        // Listener 1: Video ends naturally
+        cakeVideo.addEventListener("ended", () => nextPage());
+
+        // Listener 2: Safety check if video pauses (like a user manually pausing it when it's near the end)
+        cakeVideo.addEventListener("pause", () => {
+            if (cakeVideo.ended) {
+                nextPage();
+            }
+        });
+
+
+        // FIREWORKS
+        function launchFireworks() {
+            // Show the text overlay
+            document.getElementById("fireworks-text").style.opacity = '1';
+
+            const canvas = document.getElementById("fireworks");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            let particles = [];
+
+            function createFirework() {
+                let x = Math.random() * canvas.width;
+                let y = Math.random() * canvas.height * 0.5;
+
+                // Random pink/white/purple color for the particles
+                const colors = ["255,192,203", "255,255,255", "136,68,255"];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+
+                for (let i = 0; i < 40; i++) {
+                    particles.push({
+                        x, y,
+                        angle: Math.random() * 2 * Math.PI,
+                        speed: Math.random() * 5 + 2,
+                        alpha: 1,
+                        color: color
+                    });
+                }
+            }
+
+
+            createFirework();
+            setInterval(createFirework, 600);
+
+
+            function animate() {
+                // Fading trail effect
+                ctx.fillStyle = "rgba(0, 17, 51, 0.1)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                for (let p of particles) {
+                    p.x += Math.cos(p.angle) * p.speed;
+                    p.y += Math.sin(p.angle) * p.speed;
+                    p.alpha -= 0.02;
+
+                    ctx.fillStyle = "rgba(" + p.color + "," + p.alpha + ")";
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 4, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+
+                particles = particles.filter(p => p.alpha > 0);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+
+
+</body>
+
+</html>
