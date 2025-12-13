@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Maa</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Poppins, sans-serif;
+    background:#001133;
+    color:#ffd6ea;
+    overflow-x:hidden;
+}
+.page{display:none; padding:50px 20px; text-align:center;}
+.active{display:block}
+
+h1{font-size:42px; text-shadow:0 0 15px pink;}
+p{font-size:18px}
+
+button{
+    padding:14px 28px;
+    border:none;
+    border-radius:30px;
+    background:#ff66b2;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    box-shadow:0 0 20px pink;
+    margin-top:30px;
+}
+
+video{width:85%; max-width:450px; border-radius:20px; cursor:pointer}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+    max-width:650px;
+    margin:auto;
+}
+
+/* GIFT BOX */
+.gift{
+    padding:25px;
+    border-radius:20px;
+    font-size:20px;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(135deg,#ff7aa8,#b56cff);
+    box-shadow:0 0 20px rgba(255,150,200,.6);
+    transition:.3s;
+}
+.gift:hover{transform:scale(1.06)}
+
+/* PHOTO POPUP */
+.popup{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.9);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:100;
+}
+.popup img{
+    width:85%;
+    max-width:360px;
+    border-radius:20px;
+}
+
+/* LETTER FOLDING */
+.letter{
+    background:linear-gradient(135deg,#ff6fae,#7b6cff);
+    border-radius:18px;
+    padding:18px;
+    color:white;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(0,0,0,.4);
+}
+.letter h3{margin:0}
+.letter::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,.15);
+    transform-origin:top;
+    transition:.6s;
+}
+.letter.open{background:#ffe6f1; color:#000}
+.content{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .7s ease;
+    margin-top:12px;
+    line-height:1.6;
+}
+.content.show{max-height:300px}
+
+/* STARS & HEARTS */
+.drop{
+    position:fixed;
+    top:-10px;
+    animation:fall 3s linear infinite;
+}
+@keyframes fall{
+    to{transform:translateY(100vh); opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<script>
+setInterval(()=>{
+ let d=document.createElement("div");
+ d.className="drop";
+ d.innerHTML=Math.random()>0.5?"💖":"🌟";
+ d.style.left=Math.random()*100+"vw";
+ document.body.appendChild(d);
+ setTimeout(()=>d.remove(),3000);
+},200);
+</script>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+<h1>Happy Birthday To You 🎉</h1>
+<button onclick="go(2)">गिफ्ट के लिए क्लिक करो 🎁</button>
+<audio src="maa1.mp3" autoplay loop></audio>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+<h1>🌟 Happy Birthday Maa ❤️</h1>
+<p> 🫶 आपके लिए प्यारे प्यारे गिफ्ट 🫂 💐</p>
+<video src="cake.mp4" controls></video><br>
+<button onclick="go(3)">आगे चलो ➜</button>
+<audio src="maa2.mp3" autoplay loop></audio>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+<h1> 🫅 प्यारी मां 🫅</h1>
+<div class="grid">
+<script>
+for(let i=1;i<=10;i++){
+document.write(`<div class="gift" onclick="show('gift${i}.jpg')">Gift ${i}</div>`);
+}
+</script>
+</div>
+<button onclick="go(4)">Next ➜</button>
+<audio src="maa2.mp3" autoplay loop></audio>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+<h1>🤍 हमारी यादें 🤍</h1>
+<div class="grid">
+<script>
+for(let i=11;i<=20;i++){
+document.write(`<div class="gift" onclick="show('gift${i}.jpg')">Gift ${i}</div>`);
+}
+</script>
+</div>
+<button onclick="go(5)">Next ➜</button>
+<audio src="maa3.mp3" autoplay loop></audio>
+</div>
+
+<div class="popup" id="popup" onclick="hide()">
+<img id="popimg">
+</div>
+
+<!-- PAGE 5 LETTER 1–10 -->
+<div class="page" id="p5">
+<h1>💌 आपके लिए चिठ्ठियां 💌</h1>
+<div class="grid">
+<script>
+const l1=[
+"आपकी हँसी सुनकर हमारा मन भी हँस उठता है ✨",
+"हमारी मम्मी की एक ही पुरान ⏳, बच्चे उनके बहुत शैतान 😄😈।",
+"हमारे लिए आप ही सबसे खास हो, और हर दिन आपका साथ चाहिए 😄",
+"हमारी हर शरारत में भी आपका प्यार सबसे बड़ा सहारा है 😄",
+"हम बस चाहते हैं कि आप हमेशा खुश और हँसती रहें ✨",
+"आप हमारे लिए हमेशा से  सबसे प्यारी हो, और हमेशा रहेंगी 🌸",
+"हम सब बच्चों की छोटी सी दुनिया में, आपकी मुस्कान सबसे बड़ी खुशी है ❤️",
+"आपका जन्मदिन हमारी दुआओं का त्यौहार है,
+क्योंकि आप ही हमारे हर दिन की रोशनी हैं।",
+"जीवन की हर राह पर आपकी मुस्कान साथ रहे,
+यही सबसे प्यारी ख्वाहिश है हमारी।",
+"आपके बिना ये घर खाली-खाली लगता है,
+आप ही तो इसकी असली रौनक हैं।"
+];
+l1.forEach((t,i)=>{
+document.write(`<div class="letter" onclick="fold(this)">
+<h3>Letter ${i+1}</h3>
+<div class="content">${t}</div></div>`);
+});
+</script>
+</div>
+<button onclick="go(6)">Next ➜</button>
+<audio src="maa4.mp3" autoplay loop></audio>
+</div>
+
+<!-- PAGE 6 LETTER 11–20 -->
+<div class="page" id="p6">
+<h1> ❤️‍🩹 कुछ और यादें ❤️‍🩹</h1>
+<div class="grid">
+<script>
+const l2=[
+" आज का दिन है बहुत ख़ास, आप हो हमारे दिल के पास ❤️✨",
+"हम बच्चों की एक ही राय, मम्मी आप बनाती हो सबसे अच्छी चाय ☕❤️",
+"हम सब की एक कहानी, मम्मी हमारी बहुत सयानी ❤️✨",
+"आया आया जन्मदिन, आज खाएंगे हम बिस्किट नमकीन 🎉🍪✨",
+"जन्मदिन पर बस यही उपहार दे सकते हैं,
+ढेर सारा प्यार और खूबसूरत दुआएँ।",
+"आपकी हंसी में ही हमारा सुकून है,
+आपकी खुशी में ही हमारी दुनिया।",
+"आपकी ममता ने हमें हर मोड़ पर संभाला है,
+आज उसी प्यार को सलाम करने का दिन है। ",
+"जिस घर में आपकी हंसी गूंजती है,
+वहीं से हमारी खुशियाँ शुरू होती हैं।",
+"भगवान से बस इतनी सी प्रार्थना है,
+आपकी झोली हमेशा खुशियों से भरी रहे।",
+"आपके बिना ये घर खाली-खाली लगता है,
+आप ही तो इसकी असली रौनक हैं।"
+];
+l2.forEach((t,i)=>{
+document.write(`<div class="letter" onclick="fold(this)">
+<h3>Letter ${i+11}</h3>
+<div class="content">${t}</div></div>`);
+});
+</script>
+</div>
+<button onclick="go(7)">Next ➜</button>
+<audio src="maa5.mp3" autoplay loop></audio>
+</div>
+
+<!-- FINAL PAGE -->
+<div class="page" id="p7">
+<h1>🎆 HAPPY BIRTHDAY MUMMA 🎆</h1>
+<p>हैप्पी बर्थडे 🎉🎂💐! आज हम सब बच्चों ने मिलकर सोचा कि एक ही बार में सारी विशेज़ दे दी जाएँ, वरना अलग-अलग जाकर आपको परेशान ही करते रहेंगे 😄। वैसे तो हम रोज़ घर का सर्कस चला के रख देते हैं, पर आज हमने डिसाइड किया है कि आप थोड़ा आराम कर लो… (बस थोड़ा ही, पूरा दिन तो पॉसिबल नहीं होता हमारे होते हुए 😜)। आज का दिन बस आपका है—ना कोई एक्स्ट्रा टेंशन, ना हमारी बेकार की डिमांड, बस थोड़ी-सी मस्ती, थोड़ी-सी हँसी और बहुत सारा केक 🍰✨। हम सब चाहते हैं कि आप हमेशा ऐसे ही खुश, बिंडास और हेल्दी रहो, और हम कितना भी शोर मचा लें, आपका स्माइल कभी कम ना हो। सो वन्स अगेन, हैप्पी बर्थडे 🎉💖   </p>
+<audio src="song1.mp3" autoplay loop></audio>
+</div>
+
+<script>
+function go(n){
+document.querySelector('.active').classList.remove('active');
+document.getElementById('p'+n).classList.add('active');
+}
+function show(img){
+popimg.src=img;
+popup.style.display="flex";
+}
+function hide(){popup.style.display="none"}
+function fold(b){
+b.classList.toggle("open");
+b.querySelector(".content").classList.toggle("show");
+}
+</script>
+
+</body>
+</html>
