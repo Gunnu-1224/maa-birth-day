@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Maa 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --pink:#ff77bb;
+    --purple:#9b6bff;
+    --glass:rgba(255,255,255,0.15);
+}
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:#001133;
+    color:#ffe6f2;
+    overflow-x:hidden;
+}
+
+/* PAGE SYSTEM */
+.page{
+    min-height:100vh;
+    padding:50px 20px;
+    display:none;
+    text-align:center;
+    animation:fadeSlide 1s ease;
+}
+.page.active{display:block}
+
+@keyframes fadeSlide{
+    from{opacity:0;transform:translateY(40px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+h1{
+    font-family:'Playfair Display',serif;
+    font-size:52px;
+    text-shadow:0 0 20px var(--pink);
+}
+.quote{font-size:20px;margin-bottom:20px}
+
+/* VIDEO */
+video{
+    width:85%;
+    max-width:480px;
+    border-radius:25px;
+    box-shadow:0 0 30px rgba(255,119,187,0.6);
+}
+
+/* GRID */
+.box-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:18px;
+    max-width:900px;
+    margin:auto;
+    margin-top:30px;
+}
+
+/* PHOTO BOXES */
+.gift-box{
+    aspect-ratio:1/1;
+    background:linear-gradient(135deg,#ff77bb,#ffb3d9);
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    cursor:pointer;
+    box-shadow:0 0 20px rgba(255,119,187,0.5);
+    transition:.35s;
+}
+.gift-box:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 35px var(--pink);
+}
+
+/* LETTER BOXES */
+.letter-box{
+    grid-column:span 2;
+    background:linear-gradient(135deg,#6a5acd,#9b6bff);
+    padding:18px;
+    border-radius:18px;
+    font-size:20px;
+    cursor:pointer;
+    box-shadow:0 0 25px rgba(155,107,255,.6);
+    transition:.35s;
+}
+.letter-box:hover{transform:scale(1.05)}
+
+.hidden-text{
+    grid-column:span 2;
+    display:none;
+    padding:18px;
+    margin-top:5px;
+    background:var(--glass);
+    backdrop-filter:blur(10px);
+    border-radius:15px;
+    animation:openLetter .5s ease;
+}
+@keyframes openLetter{
+    from{opacity:0;transform:translateY(-10px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+/* BUTTON */
+.next-btn{
+    margin-top:35px;
+    padding:14px 30px;
+    font-size:20px;
+    border:none;
+    border-radius:40px;
+    background:linear-gradient(135deg,#ff77bb,#ff3d9a);
+    color:white;
+    cursor:pointer;
+    box-shadow:0 0 25px var(--pink);
+    transition:.3s;
+}
+.next-btn:hover{transform:scale(1.1)}
+
+/* PHOTO MODAL */
+.photo-popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    z-index:999;
+}
+.photo-popup img{
+    max-width:85%;
+    max-height:80%;
+    border-radius:20px;
+    box-shadow:0 0 30px white;
+}
+
+/* RAIN */
+.rain{
+    position:fixed;
+    top:-10px;
+    font-size:18px;
+    animation:fall 3s linear infinite;
+}
+@keyframes fall{
+    to{transform:translateY(110vh);opacity:0}
+}
+
+/* FIREWORKS */
+#fireworks{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEART / STAR RAIN -->
+<script>
+setInterval(()=>{
+ let e=document.createElement("div");
+ e.className="rain";
+ e.innerText=Math.random()>0.5?"💖":"✨";
+ e.style.left=Math.random()*100+"vw";
+ document.body.appendChild(e);
+ setTimeout(()=>e.remove(),3000);
+},220);
+</script>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+<h1>Happy Birthday Maa 💖</h1>
+<p class="quote">आपके लिए हमारी तरफ़ से एक छोटा सा सरप्राइज़ 🎁</p>
+<audio id="bg1" src="maa1.mp3" autoplay loop></audio>
+<video id="cakeVideo" src="cake.mp4" controls></video>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+<h1>प्यारी माँ 💕</h1>
+<audio id="bg2" src="maa2.mp3" autoplay loop></audio>
+<div class="box-container">
+<script>
+for(let i=1;i<=10;i++){
+ document.write(`<div class="gift-box" onclick="openPhoto('gift${i}.jpg')">Gift ${i}</div>`);
+}
+</script>
+</div>
+<button class="next-btn" onclick="nextPage()">Next ➜</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page">
+<h1>यादें 🤍</h1>
+<audio id="bg3" src="maa3.mp3" autoplay loop></audio>
+<div class="box-container">
+<script>
+for(let i=11;i<=20;i++){
+ document.write(`<div class="gift-box" onclick="openPhoto('gift${i}.jpg')">Gift ${i}</div>`);
+}
+</script>
+</div>
+<button class="next-btn" onclick="nextPage()">Next ➜</button>
+</div>
+
+<!-- PHOTO POPUP -->
+<div id="photoPopup" class="photo-popup">
+<img id="popupImg">
+<button class="next-btn" onclick="closePhoto()">Close</button>
+</div>
+
+<!-- PAGE 4 -->
+<div id="page4" class="page">
+<h1>💌 चिट्ठियाँ</h1>
+<audio id="bg4" src="maa4.mp3" autoplay loop></audio>
+<div class="box-container">
+<script>
+for(let i=1;i<=10;i++){
+ document.write(`
+ <div class="letter-box" onclick="toggleQuote('q${i}')">Letter ${i}</div>
+ <div id="q${i}" class="hidden-text">${document.getElementById('q'+i)?.innerHTML||''}</div>
+ `);
+}
+</script>
+</div>
+<button class="next-btn" onclick="nextPage()">Next ➜</button>
+</div>
+
+<!-- PAGE 5 -->
+<div id="page5" class="page">
+<h1>💝 और भी बातें</h1>
+<audio id="bg5" src="maa5.mp3" autoplay loop></audio>
+<div class="box-container">
+<script>
+for(let i=11;i<=20;i++){
+ document.write(`
+ <div class="letter-box" onclick="toggleQuote('q${i}')">Letter ${i}</div>
+ <div id="q${i}" class="hidden-text"></div>
+ `);
+}
+</script>
+</div>
+<button class="next-btn" onclick="nextPage()">Next ➜</button>
+</div>
+
+<!-- PAGE 6 -->
+<div id="page6" class="page">
+<h1 style="font-size:60px">HAPPY BIRTHDAY MUMMA 🎉</h1>
+<p style="font-size:22px">आप हमेशा खुश रहो, यही हमारी दुआ है 💖</p>
+<audio id="finalSong" src="song1.mp3" autoplay loop></audio>
+<button class="next-btn" onclick="launchFireworks()">🎆 Start Fireworks 🎆</button>
+</div>
+
+<canvas id="fireworks"></canvas>
+
+<script>
+let currentPage=1;
+function nextPage(){
+ document.getElementById("page"+currentPage).classList.remove("active");
+ let a=document.getElementById("bg"+currentPage)||document.getElementById("finalSong");
+ if(a)a.pause();
+ currentPage++;
+ document.getElementById("page"+currentPage).classList.add("active");
+ let b=document.getElementById("bg"+currentPage)||document.getElementById("finalSong");
+ if(b)b.play();
+}
+
+document.getElementById("cakeVideo").addEventListener("ended",nextPage);
+
+function openPhoto(img){
+ popupImg.src=img;
+ photoPopup.style.display="flex";
+}
+function closePhoto(){photoPopup.style.display="none";}
+
+function toggleQuote(id){
+ document.querySelectorAll('.hidden-text').forEach(t=>t.style.display="none");
+ let el=document.getElementById(id);
+ el.style.display="block";
+}
+
+/* FIREWORKS */
+function launchFireworks(){
+ const c=fireworks,ctx=c.getContext("2d");
+ c.width=innerWidth;c.height=innerHeight;
+ let p=[];
+ setInterval(()=>{
+  let x=Math.random()*c.width,y=Math.random()*c.height*.5;
+  for(let i=0;i<40;i++)
+   p.push({x,y,a:Math.random()*6.28,s:Math.random()*4+2,o:1});
+ },600);
+ (function anim(){
+  ctx.fillStyle="rgba(0,17,51,.2)";
+  ctx.fillRect(0,0,c.width,c.height);
+  p.forEach(e=>{
+   e.x+=Math.cos(e.a)*e.s;
+   e.y+=Math.sin(e.a)*e.s;
+   e.o-=.02;
+   ctx.fillStyle=`rgba(255,180,220,${e.o})`;
+   ctx.beginPath();ctx.arc(e.x,e.y,3,0,6.28);ctx.fill();
+  });
+  p=p.filter(e=>e.o>0);
+  requestAnimationFrame(anim);
+ })();
+}
+</script>
+
+</body>
+</html>
